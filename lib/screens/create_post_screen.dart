@@ -25,6 +25,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   String _caption = '';
   bool _isLoading = false;
 
+  //Dialog should pop lol its not poping
+  // now its working  i was working on androidDialog before :D
+  //yeah thnaks
+
   _showSelectImageDialog() {
     return Platform.isIOS ? _iosBottomSheet() : _androidDialog();
   }
@@ -32,28 +36,36 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   _iosBottomSheet() {
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext _) {
         return CupertinoActionSheet(
           title: Text('Add Photo'),
           actions: <Widget>[
             CupertinoActionSheetAction(
               child: Text('Take Photo'),
-              onPressed: () => _handleImage(ImageSource.camera),
+              onPressed: () {
+                Navigator.of(_).pop();
+                _handleImage(ImageSource.camera);
+              },
             ),
             CupertinoActionSheetAction(
               child: Text('Choose From Gallery'),
-              onPressed: () => _handleImage(ImageSource.gallery),
+              onPressed: () {
+                Navigator.of(_).pop();
+                _handleImage(ImageSource.gallery);
+              },
             ),
         
             CupertinoActionSheetAction(
               child: Text('Capture Video'),
               onPressed: () {
+                Navigator.of(_).pop();
                 _handleVideo(ImageSource.camera);
               },
             ),
             CupertinoActionSheetAction(
               child: Text('Choose from Video\'s'),
               onPressed: () {
+                Navigator.of(_).pop();
                 _handleVideo(ImageSource.gallery);
               },
             )
@@ -66,6 +78,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       },
     );
   }
+  //can you copy the code for all the 4 butons
+  //ok
 
   _androidDialog() {
     showDialog(
@@ -80,7 +94,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ),
             SimpleDialogOption(
               child: Text('Choose From Gallery'),
-              onPressed: () => _handleImage(ImageSource.gallery),
+              onPressed: () {
+                Navigator.pop(context);
+                _handleImage(ImageSource.gallery);
+              },
             ),
             SimpleDialogOption(
               child: Text('Capture Video'),
@@ -109,8 +126,21 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     );
   }
 
+  //that's the problem
+  //you are greate i will check
+  //this image size will be about 5mb :D its gonna take time its fine
+  //can you fix all the places where navigator pop exis
+  //but when user select image the dialogue doesn't pop
+//what happen when we uncomment commented navigator.pop
+//that just Pop the create post screen i guess that's why there was black screen
+//ok thats fine
+
+// now its working fine
+//you can't use simulator camera ok & i didn't accept by accident :D
+//finally i 'll make changess on splash screen
+
   _handleVideo(ImageSource source) async {
-    Navigator.pop(context);
+    //Navigator.pop(context);
     File videoFile = await ImagePicker.pickVideo(source: source);
     _videoFile = videoFile;
     _videoPlayerController = VideoPlayerController.file(_videoFile)
@@ -121,8 +151,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       });
   }
 
+//why black screen , I dont know i will check it
   _handleImage(ImageSource source) async {
-    Navigator.pop(context);
+    // Navigator.pop(context);
     File imageFile = await ImagePicker.pickImage(source: source);
     if (imageFile != null) {
 //      imageFile = await _cropImage(imageFile);

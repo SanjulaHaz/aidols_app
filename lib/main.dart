@@ -10,6 +10,14 @@ import 'package:aidols_app/screens/signup_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:splashscreen/splashscreen.dart';
+//i 'll make layrt anyway thank you lets mmet on fiverr good byr sure
+//one thing if you can please make a screen recording of app running
+// can you tell me how to do it i didn't have tried that does
+
+
+// there is another bug when you goto comments screen
+//what is that, i don't know i saw red screen
+//ohh ican fix it i'll fix it later your job is done let's mmet in fiveer ok 
 
 void main() => runApp(MaterialApp(
   home: SplashScreen(
@@ -104,3 +112,56 @@ class _MyAppState extends State<MyApp> {
     return changeNotifierProvider;
   }
 }
+
+class RootPage extends StatefulWidget {
+  @override
+  _RootPageState createState() => _RootPageState();
+}
+
+class _RootPageState extends State<RootPage> {
+  Stream<FirebaseUser> _stream;
+
+  // bool _loading = true;
+
+  @override
+  void initState() {
+    _stream = FirebaseAuth.instance.onAuthStateChanged;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var userState = Provider.of<UserData>(context);
+
+    return StreamBuilder<FirebaseUser>(
+      stream: _stream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          var user = snapshot.data;
+
+          if (user == null) {
+            return LoginScreen();
+          } else {
+            userState.currentUserEmail = user.email;
+            userState.currentUserId = user.uid;
+            userState.currentUserName = user.email;
+            return HomeScreen(logged: user.email);
+          }
+        } else {
+          return Scaffold(
+            body: Container(
+              alignment: Alignment.center,
+              color: Colors.white,
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
+    );
+  }
+}
+
+// Future<DocumentSnapshot> getName(String x) async {
+//   var subscription = await userRef.where('email', isEqualTo: x).getDocuments();
+//   return subscription.documents[0];
+// }
