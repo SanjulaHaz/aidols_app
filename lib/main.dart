@@ -10,16 +10,13 @@ import 'package:aidols_app/screens/signup_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:splashscreen/splashscreen.dart';
-//i 'll make layrt anyway thank you lets mmet on fiverr good byr sure
-//one thing if you can please make a screen recording of app running
-// can you tell me how to do it i didn't have tried that does
-
-
-// there is another bug when you goto comments screen
-//what is that, i don't know i saw red screen
-//ohh ican fix it i'll fix it later your job is done let's mmet in fiveer ok 
 
 void main() => runApp(MaterialApp(
+  theme: ThemeData(
+    primaryColor: Colors.green,
+    accentColor: Colors.redAccent,
+    scaffoldBackgroundColor: Colors.white,
+  ),
   home: SplashScreen(
       seconds: 4,
       navigateAfterSeconds: new MyApp(),
@@ -49,11 +46,6 @@ class _MyAppState extends State<MyApp> {
     getName(String x,BuildContext context) async {
       subscription = await userRef.where('email', isEqualTo: x).getDocuments();
       user = subscription.documents;
-//    String y = user[0].data['name'];
-
-      //retugrn y;
-
-      //Provider.of<UserData>(context).currentUserName = y;
     }
 
     String y;
@@ -160,8 +152,3 @@ class _RootPageState extends State<RootPage> {
     );
   }
 }
-
-// Future<DocumentSnapshot> getName(String x) async {
-//   var subscription = await userRef.where('email', isEqualTo: x).getDocuments();
-//   return subscription.documents[0];
-// }
